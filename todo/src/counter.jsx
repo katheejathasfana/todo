@@ -8,8 +8,8 @@ export const counter = () => {
   return (
     <div>
         <h1>{counter}</h1>
-        <button onClick={()=>dispatch(increment())}></button>
-        <button onClick={()=>dispatch(decrement())}></button>
+        <button onClick={()=>dispatch(increment())}>add</button>
+        <button onClick={()=>dispatch(decrement())}>dec</button>
         
     </div>
   )

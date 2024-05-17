@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addtodo, deletetodo } from './todoSlice';
+import { addtodo, completetodo, deletetodo, edittodo } from './todoSlice';
 
 export const Todo = () => {
   const [input, setInput] = useState('');
+  const [edit, setEdit]=useState('')
   const inputref=useRef()
   const todos = useSelector(state => state.todo.todos);
   const dispatch = useDispatch();
-
-  useEffect(()=>{
-    inputref.current.focus(),[]})
 
   const handleInput = (e) => {
     setInput(e.target.value);
@@ -17,6 +15,7 @@ export const Todo = () => {
 
   const handleAdd = () => {
     if (input.trim() !== '') {
+      if (!todos.some(todo => todo.text === input)) {
       dispatch(addtodo({
         id: Date.now(),
         text: input,
@@ -24,14 +23,33 @@ export const Todo = () => {
       }));
       setInput('');
     }
-  };
+  }};
 
   const handleDelete = (id) => {
     dispatch(deletetodo(id));
   };
 
+  const handleEdit=(id)=>{
+    setEdit(id)
+    const editTodo=todos.find((todo)=>todo.id==id)
+    setInput(editTodo.text)
+  }
+
+  const handleSave=()=>{
+    if(edit!==''){
+      dispatch(edittodo({id:edit ,text:input}))
+    }
+    setInput('')
+    setEdit('')
+    }
+
+    const todo=todos.length
+    const complete=todos.filter(todo=>todo.completed==true).length
+  
+
   return (
     <div className="container mx-auto px-4 py-8">
+
       <input
         type="text"
         value={input}
@@ -40,12 +58,21 @@ export const Todo = () => {
         className="border border-gray-300 p-2 rounded-md mr-2"
         placeholder="Add a new todo"
       />
+      {edit ?
+       <button
+        onClick={handleSave}
+        className="bg-blue-500 text-white px-4 py-2 rounded-md"
+      >
+        Edit
+      </button>:
+
       <button
         onClick={handleAdd}
         className="bg-blue-500 text-white px-4 py-2 rounded-md"
       >
         Add
       </button>
+      }
       <ul className="mt-4">
         {todos.map(todo => (
           <li
@@ -55,17 +82,36 @@ export const Todo = () => {
             <span
               className={`mr-2 ${todo.completed ? 'line-through text-gray-400' : ''}`}
             >
-              {todo.text}
+            {todo.text}
             </span>
+            {!todo.completed &&(
+              <>
             <button
               onClick={() => handleDelete(todo.id)}
-              className="text-red-500"
+              className="text-red-500  mr-2"
             >
               Delete
             </button>
+            <button
+              onClick={() => handleEdit(todo.id)}
+              className="text-blue-500 mr-2"
+            >
+              Edit
+            </button>
+            <button
+              onClick={()=>dispatch(completetodo(todo.id))}
+              className="text-green-500 mr-2"
+            >
+              complete
+
+            </button>
+            </>)}
           </li>
+           
+
         ))}
       </ul>
+      <p>{todo}/{complete}</p>
     </div>
   );
 };

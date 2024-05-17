@@ -4,6 +4,8 @@ const initialState={
 todos:[]
 }
 
+
+
 const todoSlice=createSlice({
     name:'todo', 
     initialState,
@@ -14,18 +16,23 @@ const todoSlice=createSlice({
         deletetodo(state,action){
             state.todos=state.todos.filter((todo)=>todo.id!==action.payload)
         },
+
+        completetodo(state,action){
+            const Todo=state.todos.find(todo=>todo.id==action.payload)
+            if (Todo){
+            Todo.completed=true
+            }
+
+        },
         
-        // edittodo(state,action){
-        //     state.todos=state.todos.map((todo)=>{
-        //         if(todo.id===action.payload.id){
-        //             todo.text=action.payload.text
-        //         }
-        //         return todo
-        //     })
-        // }
+        edittodo(state,action){
+            const {id, text}=action.payload
+            const edit=state.todos.find(todo=>todo.id==id)
+            if(edit){
+                edit.text=text       
+        }
     }
+}})
 
-})
-
-export const {addtodo,deletetodo,edittodo}=todoSlice.actions
+export const {addtodo,deletetodo,edittodo, completetodo}=todoSlice.actions
 export default todoSlice.reducer

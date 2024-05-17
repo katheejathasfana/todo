@@ -15,15 +15,19 @@ function App() {
 
   const addtodo = () => {
     if (input.trim()!==''){
-    const todo = {
-      id: Date.now(),
-      text: input,
-      completed: false
-    };
+	if (!todos.some(todo=>todo.text===input))
+	{
+    	const todo = {
+      	id: Date.now(),
+      	text: input,
+      	completed: false
+    	};
   
-    setTodos([...todos, todo]);
-    setInput('');
+    	setTodos([...todos, todo]);
+    	setInput('');
+    	}
     }
+	
   };
 
   const deletetodo = (id) => {
