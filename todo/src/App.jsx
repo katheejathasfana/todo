@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import './App.css'; // Import your CSS file
 import Todo from './todo/todo'
 import Interviw from './Intervw'
-import Child from './child'
+import Counter from './Counter/counter'
+import Sample from './sample';
+import ReactForm from './reactform'
+import Expense from './Expense/expense'
+import Parent from './childtoparent/Parent';
+import Child from './childtoparent/Child';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -12,6 +16,8 @@ function App() {
   const handleInput = (e) => {
     setInput(e.target.value);
   }
+
+  
 
   const addtodo = () => {
     if (input.trim()!==''){
@@ -69,7 +75,7 @@ function App() {
 
   return (
     <>
-    <div className="container mx-auto px-4 py-8">
+    <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
       <input
         type="text"
         value={input}
@@ -131,16 +137,20 @@ function App() {
         ))}
       </ul>
       <div className="mt-4">
-        <p className="text-lg font-bold">Statistics:</p>
+        <p className="text-lg font-bold flex-items center">Statistics:</p>
         <p>Total Todos: {todos.length}</p>
         <p>Completed: {completed}</p>
         <p>Pending: {pending}</p>
       </div>
     </div>
      <Todo />
+     <Sample />
+     <Expense/>
     <Interviw/>
-    <Child/>
-       
+    <ReactForm/>
+    {/* <Counter/>  */}
+     <Parent/>
+    
     </>
   );
 }

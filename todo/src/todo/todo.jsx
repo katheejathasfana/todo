@@ -20,10 +20,17 @@ export const Todo = () => {
         id: Date.now(),
         text: input,
         completed: false
-      }));
+      }
+    ));
       setInput('');
     }
-  }};
+    else {
+      alert("todo already in todolist")
+  }
+  }   
+  else{
+  alert("enter a valid inputs")
+  }}
 
   const handleDelete = (id) => {
     dispatch(deletetodo(id));
@@ -48,7 +55,7 @@ export const Todo = () => {
   
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6 m-5">
 
       <input
         type="text"
@@ -74,7 +81,7 @@ export const Todo = () => {
       </button>
       }
       <ul className="mt-4">
-        {todos.map(todo => (
+        {todos.slice().reverse().map(todo => (
           <li
             key={todo.id}
             className="flex items-center justify-between border-b border-gray-300 py-2"
